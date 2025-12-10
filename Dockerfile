@@ -1,25 +1,25 @@
+FROM eclipse-temurin:21-jdk
 
-FROM eclipse-temurin:21.0.3_9-jdk
+WORKDIR /app
 
+# Copiamos mvnw y .mvn para usar el wrapper y habilitar cache de dependencias
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
 
-WORKDIR /root
+# Asegurar que mvnw sea ejecutable (útil en algunos entornos)
+RUN chmod +x mvnw
 
+# Descargar dependencias (mejor cache)
+RUN ./mvnw dependency:go-offline -B
 
-COPY biblo/pom.xml /root
-COPY biblo/.mvn /root/.mvn
-COPY biblo/mvnw /root
+# Copiar el código fuente
+COPY src ./src
 
-
-RUN ./mvnw dependency:go-offline
-
-
-COPY biblo/src /root/src
-
-
-RUN ./mvnw clean package -DskipTests
-
+# Compilar el jar
+RUN ./mvnw clean package -DskipTests -B
 
 EXPOSE 8080
 
-
+# Ejecutar el jar generado (ajusta el nombre si tu artifactId/version difieren)
 CMD ["java", "-jar", "target/biblo-0.0.1-SNAPSHOT.jar"]
