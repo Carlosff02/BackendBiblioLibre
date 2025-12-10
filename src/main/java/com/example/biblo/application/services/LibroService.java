@@ -394,7 +394,7 @@ public class LibroService {
         String jsonPayload = mapper.writeValueAsString(payload);
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:5000/translate"))
+                .uri(URI.create("https://6j3lplh2-5000.brs.devtunnels.ms/translate"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(jsonPayload))
                 .timeout(Duration.ofSeconds(30))
