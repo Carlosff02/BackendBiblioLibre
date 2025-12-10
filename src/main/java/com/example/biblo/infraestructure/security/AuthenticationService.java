@@ -49,7 +49,7 @@ public class AuthenticationService {
         String token = jwtService.generarToken(usuario);
         String destinatario = usuario.getEmail();
         String subject = "Usuario "+usuario.getUserId()+" creado correctamente";
-        String mensaje = "Su usuario ha sido creado correctamente, la contraseña es: "+usuario.getUserId() + " ingrese a la pagina https://www.jachcloud.pe/sanfernando-rrhh/ para actualizarla";
+        String mensaje = "Su usuario ha sido creado correctamente" ;
         emailService.enviarCorreoAsync(destinatario,subject,mensaje);
 
         return new AuthenticationResponse(usuario.getId(),
